@@ -1,0 +1,19 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getBlogPostBySlug } from '../../lib/turso';
+
+const { slug } = Astro.params;
+const post = await getBlogPostBySlug(slug);
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+---
+
+<Layout title={post.title}>
+  <article>
+    <h1>{post.title}</h1>
+    <p>{new Date(post.created_at).toLocaleDateString()}</p>
+    <div set:html={post.content} />
+  </article>
+</Layout>
