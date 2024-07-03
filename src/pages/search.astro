@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { searchBlogPosts } from '../lib/turso';
+import BlogPost from '../components/BlogPost.astro';
+
+const query = Astro.url.searchParams.get('q') || '';
+const posts = await searchBlogPosts(query);
+---
+
+<Layout title={`Search Results for "${query}"`}>
+  <h1>Search Results for "{query}"</h1>
+  {posts.length === 0 ? (
+    <p>No results found.</p>
+  ) : (
+    <section>
+      {posts.map((post) => (
+        <BlogPost 
+          title={post.title} 
+          slug={post.slug} 
+          excerpt={post.excerpt} 
+          thumbnailUrl={post.thumbnail_url}
+        />
+      ))}
+    </section>
+  )}
+</Layout>
+
+<style>
+  section {
+    display: grid;
+    gap: 2rem;
+  }
+</style>

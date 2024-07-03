@@ -14,7 +14,15 @@ const posts = await getBlogPosts();
 				title={post.title} 
 				slug={post.slug} 
 				excerpt={post.excerpt} 
+				thumbnailUrl={post.thumbnail_url}
 			/>
 		))}
 	</section>
 </Layout>
+
+<style>
+	section {
+		max-width: 800px;
+		margin: 0 auto;
+	}
+</style>

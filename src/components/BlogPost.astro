@@ -3,12 +3,37 @@ interface Props {
 	title: string;
 	slug: string;
 	excerpt: string;
+	thumbnailUrl: string;
 }
 
-const { title, slug, excerpt } = Astro.props;
+const { title, slug, excerpt, thumbnailUrl } = Astro.props;
 ---
 
-<article>
-	<h2><a href={`/blog/${slug}`}>{title}</a></h2>
-	<p>{excerpt}</p>
+<article class="blog-post">
+	<img src={thumbnailUrl} alt={title} class="thumbnail" />
+	<div class="content">
+		<h2><a href={`/blog/${slug}`}>{title}</a></h2>
+		<p>{excerpt}</p>
+	</div>
 </article>
+
+<style>
+	.blog-post {
+		display: flex;
+		margin-bottom: 2rem;
+		border: 1px solid #ddd;
+		border-radius: 8px;
+		overflow: hidden;
+	}
+	.thumbnail {
+		width: 200px;
+		height: 150px;
+		object-fit: cover;
+	}
+	.content {
+		padding: 1rem;
+	}
+	h2 {
+		margin-top: 0;
+	}
+</style>

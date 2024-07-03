@@ -1,4 +1,6 @@
 ---
+import SearchForm from '../components/SearchForm.astro';
+
 interface Props {
 	title: string;
 }
@@ -22,6 +24,7 @@ const { title } = Astro.props;
 			<nav>
 				<a href="/">Home</a>
 			</nav>
+			<SearchForm />
 		</header>
 		<main>
 			<slot />
@@ -31,3 +34,15 @@ const { title } = Astro.props;
 		</footer>
 	</body>
 </html>
+
+<style>
+	body {
+		max-width: 800px;
+		margin: 0 auto;
+		padding: 1rem;
+		font-family: Arial, sans-serif;
+	}
+	header {
+		margin-bottom: 2rem;
+	}
+</style>

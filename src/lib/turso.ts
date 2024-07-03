@@ -18,18 +18,18 @@ export async function getBlogPostBySlug(slug: string) {
   return result.rows[0];
 }
 
-export async function createBlogPost(slug: string, title: string, content: string, excerpt: string) {
+export async function createBlogPost(slug: string, title: string, content: string, excerpt: string, thumbnailUrl: string) {
   const result = await db.execute({
-    sql: 'INSERT INTO blog_posts (slug, title, content, excerpt) VALUES (?, ?, ?, ?)',
-    args: [slug, title, content, excerpt]
+    sql: 'INSERT INTO blog_posts (slug, title, content, excerpt, thumbnail_url) VALUES (?, ?, ?, ?, ?)',
+    args: [slug, title, content, excerpt, thumbnailUrl]
   });
   return result;
 }
 
-export async function updateBlogPost(slug: string, title: string, content: string, excerpt: string) {
+export async function updateBlogPost(slug: string, title: string, content: string, excerpt: string, thumbnailUrl: string) {
   const result = await db.execute({
-    sql: 'UPDATE blog_posts SET title = ?, content = ?, excerpt = ? WHERE slug = ?',
-    args: [title, content, excerpt, slug]
+    sql: 'UPDATE blog_posts SET title = ?, content = ?, excerpt = ?, thumbnail_url = ? WHERE slug = ?',
+    args: [title, content, excerpt, thumbnailUrl, slug]
   });
   return result;
 }
@@ -40,4 +40,16 @@ export async function deleteBlogPost(slug: string) {
     args: [slug]
   });
   return result;
+}
+
+export async function searchBlogPosts(query: string) {
+  const result = await db.execute({
+    sql: `
+      SELECT * FROM blog_posts 
+      WHERE title LIKE ? OR content LIKE ? 
+      ORDER BY created_at DESC
+    `,
+    args: [`%${query}%`, `%${query}%`]
+  });
+  return result.rows;
 }
